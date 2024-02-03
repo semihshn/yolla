@@ -1,0 +1,19 @@
+task infra_up(type: Exec) {
+    project.gradle.taskGraph.whenReady {
+        def profile = ""
+        def baseFolderList = gradle?.taskGraph?.allTasks
+                ?.collect { it.toString() }
+                ?.findAll { it.contains("test") }
+                ?.collect { it.tokenize(":").get(1) }
+                ?.findAll { !["infra_up'", "infra_down'", "clean'"].contains(it) }?.unique()
+
+        if (baseFolderList?.size() == 1) {
+            def baseFolder = baseFolderList?.get(0)
+        }
+        setIgnoreExitValue(true)
+    }
+}
+
+task infra_down(type: Exec) {
+    setIgnoreExitValue(true)
+}

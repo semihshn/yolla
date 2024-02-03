@@ -1,0 +1,18 @@
+rootProject.name = 'yolla'
+
+include ':inventory-api'
+include ':inventory-api:domain'
+include ':inventory-api:infra'
+
+include ':ordering-api'
+include ':ordering-api:domain'
+include ':ordering-api:infra'
+
+include ':payment-api'
+include ':payment-api:domain'
+include ':payment-api:infra'
+
+include ':shipping-api'
+include ':shipping-api:domain'
+include ':shipping-api:infra'
+

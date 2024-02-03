@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+
+  mysql:
+    image: mysql
+    container_name: inventory_mysql
+    volumes:
+      - ./db_setup:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+    environment:
+      TZ: Europe/Istanbul
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      LANG: C.UTF-8
+    ports:
+      - "3306:3306"
+    networks:
+      - default
+
+#docker volume create yolla_mysql_data
+volumes:
+  mysql_data:
+    name: yolla_mysql_data
+    external: true
+
+#docker network create yolla_network
+networks:
+  default:
+    name: yolla_network
+    external: true

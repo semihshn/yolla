@@ -1,0 +1,27 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
+description = 'Ordering Api'
+jar.archiveBaseName = 'ordering-api'
+
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+	implementation project('infra')
+}
+
+springBoot {
+	mainClass = 'com.yolla.orderingapi.OrderingApiApplication'
+}
+
+bootRun {
+	if (project.hasProperty('args')) {
+		args project.args.split(',')
+	}
+	if (project.hasProperty('jvmArgs')) {
+		jvmArgs = project.jvmArgs.split(',') as List
+	}
+}
+
+tasks.withType(BootJar).configureEach {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

@@ -1,0 +1,9 @@
+def versions = [
+        versions           : '0.46.0',
+        springBoot         : '3.1.0',
+]
+
+dependencies {
+    classpath "com.github.ben-manes:gradle-versions-plugin:$versions.versions"
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:$versions.springBoot"
+}

@@ -1,0 +1,79 @@
+ext {
+    versions =
+            [
+                    slf4j                      : '2.0.7',
+                    junit5                     : '5.9.2',
+                    junit5_suite               : '1.9.3',
+                    assertJ                    : '3.24.2',
+                    mockito                    : '5.3.1',
+
+                    springBoot                 : '3.1.0',
+                    springCloud                : '4.0.3',
+                    springCloudDependencies    : '2022.0.3',
+
+                    groovy                     : '4.0.12',
+
+                    lombok                     : '1.18.26',
+
+                    mysql                      : '8.0.33',
+                    hikari                     : '5.0.1',
+
+                    jackson                    : '2.15.0',
+                    jaxbApi                    : '2.3.1',
+                    jaxbCore                   : '4.0.2',
+            ]
+}
+
+dependencies {
+    implementation "org.slf4j:jcl-over-slf4j:${versions.slf4j}"
+    implementation "org.slf4j:log4j-over-slf4j:${versions.slf4j}"
+    implementation "org.slf4j:slf4j-api:${versions.slf4j}"
+
+    //spring bom imports
+    implementation platform("org.springframework.boot:spring-boot-dependencies:${versions.springBoot}")
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${versions.springCloudDependencies}")
+    implementation platform("org.springframework.cloud:spring-cloud-contract-dependencies:${versions.springCloud}")
+
+    //tests
+    testImplementation "org.assertj:assertj-core:${versions.assertJ}"
+    testImplementation "org.mockito:mockito-core:${versions.mockito}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${versions.mockito}"
+
+    testImplementation "org.junit.platform:junit-platform-commons:${versions.junit5_suite}"
+    testImplementation "org.junit.platform:junit-platform-engine:${versions.junit5_suite}"
+    testImplementation "org.junit.platform:junit-platform-launcher:${versions.junit5_suite}"
+    testImplementation "org.junit.platform:junit-platform-suite-api:${versions.junit5_suite}"
+    testImplementation "org.junit.platform:junit-platform-suite-engine:${versions.junit5_suite}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:${versions.junit5}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${versions.junit5}"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${versions.junit5}"
+
+    constraints {
+
+        //sun
+        implementation "com.sun.xml.bind:jaxb-impl:${versions.jaxbCore}"
+        implementation "com.sun.xml.bind:jaxb-core:${versions.jaxbCore}"
+        implementation "com.sun.xml.bind:jaxb-osgi:${versions.jaxbCore}"
+
+        //javax
+        implementation "javax.xml.bind:jaxb-api:${versions.jaxbApi}"
+
+        //db
+        implementation "com.zaxxer:HikariCP:${versions.hikari}"
+        implementation "com.mysql:mysql-connector-j:${versions.mysql}"
+
+        //jackson
+        implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${versions.jackson}"
+        implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:${versions.jackson}"
+        implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${versions.jackson}"
+        implementation "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson}"
+        implementation "com.fasterxml.jackson.core:jackson-core:${versions.jackson}"
+        implementation "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}"
+
+        //misc
+        implementation "org.projectlombok:lombok:${versions.lombok}"
+        annotationProcessor "org.projectlombok:lombok:${versions.lombok}"
+        testAnnotationProcessor "org.projectlombok:lombok:${versions.lombok}"
+    }
+}

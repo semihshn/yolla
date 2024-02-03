@@ -1,0 +1,20 @@
+apply from: "$rootProject.projectDir/gradle/config/dependencies.gradle"
+
+dependencies {
+    implementation project.parent.project("domain")
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+
+    implementation 'com.zaxxer:HikariCP'
+    implementation 'javax.xml.bind:jaxb-api'
+    implementation 'com.sun.xml.bind:jaxb-impl'
+    implementation 'com.sun.xml.bind:jaxb-core'
+    implementation 'com.sun.xml.bind:jaxb-osgi'
+    implementation 'com.mysql:mysql-connector-j'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

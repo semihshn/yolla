@@ -2,12 +2,12 @@ version: '3.9'
 
 services:
 
-  mysql:
+  mysql-inventory:
     image: mysql
-    container_name: inventory_mysql
+    container_name: mysql_inventory
     volumes:
-      - ./db_setup:/docker-entrypoint-initdb.d
-      - mysql_data:/var/lib/mysql
+      - ./db_setup/inventory:/docker-entrypoint-initdb.d
+      - inventory_mysql_data:/var/lib/mysql
     environment:
       TZ: Europe/Istanbul
       MYSQL_ROOT_PASSWORD: my-secret-pw
@@ -17,10 +17,64 @@ services:
     networks:
       - default
 
-#docker volume create yolla_mysql_data
+  mysql-ordering:
+    image: mysql
+    container_name: mysql_ordering
+    volumes:
+      - ./db_setup/ordering:/docker-entrypoint-initdb.d
+      - ordering_mysql_data:/var/lib/mysql
+    environment:
+      TZ: Europe/Istanbul
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      LANG: C.UTF-8
+    ports:
+      - "3307:3306"
+    networks:
+      - default
+
+  mysql-payment:
+    image: mysql
+    container_name: mysql_payment
+    volumes:
+      - ./db_setup/payment:/docker-entrypoint-initdb.d
+      - payment_mysql_data:/var/lib/mysql
+    environment:
+      TZ: Europe/Istanbul
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      LANG: C.UTF-8
+    ports:
+      - "3308:3306"
+    networks:
+      - default
+
+  mysql-shipping:
+    image: mysql
+    container_name: mysql_shipping
+    volumes:
+      - ./db_setup/shipping:/docker-entrypoint-initdb.d
+      - shipping_mysql_data:/var/lib/mysql
+    environment:
+      TZ: Europe/Istanbul
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      LANG: C.UTF-8
+    ports:
+      - "3309:3306"
+    networks:
+      - default
+
+#docker volume create
 volumes:
-  mysql_data:
-    name: yolla_mysql_data
+  inventory_mysql_data:
+    name: inventory_mysql_data
+    external: true
+  ordering_mysql_data:
+    name: ordering_mysql_data
+    external: true
+  payment_mysql_data:
+    name: payment_mysql_data
+    external: true
+  shipping_mysql_data:
+    name: shipping_mysql_data
     external: true
 
 #docker network create yolla_network

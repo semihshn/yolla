@@ -13,5 +13,7 @@ spring:
     username: root
     password: my-secret-pw
     driver-class-name: com.mysql.cj.jdbc.Driver
+  kafka:
+    bootstrap-servers: 'localhost:9092'
 server:
   port: 8020

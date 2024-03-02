@@ -15,7 +15,7 @@ public class DomainEvent {
 
     public static <T extends DomainEvent> DomainEventEnvelope<T> from(T domainEvent, Class<?> clazz) {
         return new DomainEventEnvelope<>(
-                clazz.getName(),
+                clazz.getSimpleName(),
                 UUID.randomUUID().toString(),
                 domainEvent
         );

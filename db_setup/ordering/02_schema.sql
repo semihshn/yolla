@@ -18,3 +18,14 @@ create table if not exists orders
     order_line_items  MEDIUMTEXT    not null,
     total_amount       decimal(30,6) not null
 );
+
+create table if not exists outbox_data
+(
+    id           bigint auto_increment primary key,
+    idate        datetime                           not null,
+    udate        datetime                           null,
+    status       int      default 0                 not null comment '-1: deleted, 0:passive, 1:active',
+    payload      text                               not null,
+    topic        varchar(255)                       not null,
+    event_group  varchar(255)                       not null
+);

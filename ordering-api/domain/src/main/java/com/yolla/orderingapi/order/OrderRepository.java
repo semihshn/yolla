@@ -4,5 +4,5 @@ import com.yolla.orderingapi.order.model.Order;
 
 public interface OrderRepository {
 
-    Order createOrder(Order order);
+    void createOrder(Order order);
 }

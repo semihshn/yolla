@@ -16,20 +16,16 @@ public class OrderRepositoryAdapter implements OrderRepository {
     private final OrderJpaRepository orderJpaRepository;
 
     @Override
-    public Order createOrder(Order order) {
+    public void createOrder(Order order) {
 
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setRestaurantId(order.getRestaurantId());
         orderEntity.setOrderId(order.getOrderId());
         orderEntity.setState(order.getState());
-        orderEntity.setStatus(order.getStatus());
         orderEntity.setOrderLineItems(order.getOrderLineItems());
         orderEntity.setTotalAmount(order.getTotalAmount());
         orderEntity.setStatus(Status.ACTIVE);
 
-//        if (true){
-//            throw new RuntimeException("Db is down.");
-//        }
-        return orderJpaRepository.save(orderEntity).toModel();
+        orderJpaRepository.save(orderEntity).toModel();
     }
 }

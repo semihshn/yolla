@@ -22,10 +22,6 @@ public class EventPublisherAdapter implements EventPublisher {
     @Override
     public <T extends DomainEvent> void publish(List<T> domainEvents, String topicName, String groupName, Class<?> aggregateClazz) {
 
-        if (true) {
-            throw new RuntimeException("Kafka is down.");
-        }
-
         var domainEventEnvelope = DomainEvent.from(domainEvents, aggregateClazz);
 
         String payload = JsonConverter.convertTo(mapper, domainEventEnvelope);

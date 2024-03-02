@@ -21,8 +21,8 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest) {
         log.info("Ordering request received");
-
         orderService.createOrder(createOrderRequest.toModel());
+        log.info("Ordering request processed");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

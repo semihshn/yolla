@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yolla.orderingapi.common.event.DomainEvent;
 import com.yolla.orderingapi.common.event.DomainEventEnvelope;
 import com.yolla.orderingapi.common.exception.ExceptionType;
-import com.yolla.orderingapi.common.exception.OrderingJsonConvertException;
+import com.yolla.orderingapi.common.exception.OrderingApiJsonConvertException;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class JsonConverter {
         try {
             objectEvent = objectMapper.readValue(stringEvent, listTypeReference);
         } catch (JsonProcessingException e) {
-            throw new OrderingJsonConvertException(ExceptionType.CONVERT_OBJECT_TO_JSON);
+            throw new OrderingApiJsonConvertException(ExceptionType.CONVERT_OBJECT_TO_JSON);
         }
         return objectEvent;
     }
@@ -29,7 +29,7 @@ public class JsonConverter {
         try {
             payload = objectMapper.writeValueAsString(domainEventEnvelope);
         } catch (JsonProcessingException e) {
-            throw new OrderingJsonConvertException(ExceptionType.CONVERT_OBJECT_TO_JSON);
+            throw new OrderingApiJsonConvertException(ExceptionType.CONVERT_OBJECT_TO_JSON);
         }
         return payload;
     }

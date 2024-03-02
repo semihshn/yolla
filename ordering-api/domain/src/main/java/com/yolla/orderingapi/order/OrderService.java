@@ -1,8 +1,8 @@
 package com.yolla.orderingapi.order;
 
+import com.yolla.orderingapi.common.outbox.OutboxRepository;
 import com.yolla.orderingapi.order.model.Order;
 import com.yolla.orderingapi.common.event.DomainEvent;
-import com.yolla.orderingapi.common.event.EventPublisher;
 import com.yolla.orderingapi.common.event.ResultWithDomainEvents;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,23 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final OrderRepository orderRepository;
-    private final EventPublisher eventPublisher;
+    public static final String SUBSCRIPTION_EVENT_GROUP = "domain-event-subscription";
+    public static final String ORDER_CREATED_TOPIC = "order-created";
 
-//    @Transactional
-    public Order createOrder(Order order) {
+    private final OrderRepository orderRepository;
+    private final OutboxRepository outboxRepository;
+
+    @Transactional
+    public void createOrder(Order order) {
 
         order.noteReceived();
         ResultWithDomainEvents<Order, DomainEvent> orderAndEvents = Order.createOrder(order);
 
-        Order persistedOrder = orderRepository.createOrder(order);
-
-        eventPublisher.publish(orderAndEvents.getDomainEvents(),
-                "order-created",
-                "domain-event-subscription",
-                Order.class);
-
-        return persistedOrder;
-
+        orderRepository.createOrder(order);
+        outboxRepository.create(orderAndEvents.getDomainEvents(), ORDER_CREATED_TOPIC, SUBSCRIPTION_EVENT_GROUP, Order.class);
     }
 }

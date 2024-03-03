@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yolla.paymentapi.adapter.kafka.common.JsonConverter;
 import com.yolla.paymentapi.common.event.DomainEventEnvelope;
 import com.yolla.paymentapi.common.event.order.OrderCreated;
+import com.yolla.paymentapi.common.lock.LockPort;
 import com.yolla.paymentapi.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import java.util.List;
 public class OrderingDomainEventListenerAdapter {
 
     private final PaymentService paymentService;
+    private final LockPort lockPort;
     public final ObjectMapper objectMapper;
 
     @KafkaListener(topics = "order-created",
@@ -34,9 +36,20 @@ public class OrderingDomainEventListenerAdapter {
                 new TypeReference<>() {
                 });
 
-        domainEventEnvelopes.forEach(orderCreated -> paymentService.pay(orderCreated.getEvent().toModel()));
+        var domainEventAggregateIds = domainEventEnvelopes.stream()
+                .map(DomainEventEnvelope::getAggregateId)
+                .toList();
 
-        acknowledgment.acknowledge();
+        try {
+            domainEventAggregateIds.forEach(lockPort::lock);
+
+            domainEventEnvelopes.forEach(orderCreated -> paymentService.pay(orderCreated.getEvent().toModel()));
+
+            acknowledgment.acknowledge();
+        } catch (Exception e) {
+            log.info("producer published same aggregate id, event: {}",
+                    event);
+        }
 
     }
 }

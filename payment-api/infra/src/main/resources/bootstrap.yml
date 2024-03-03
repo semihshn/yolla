@@ -15,5 +15,15 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   kafka:
     bootstrap-servers: 'localhost:9092'
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# INFRA
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 server:
   port: 8020
+
+redis:
+  lockDuration: 10000
+  password: redisPassword
+  hostname: ${REDIS_HOST:localhost}

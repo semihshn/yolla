@@ -9,6 +9,11 @@ dependencies {
 
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+
     implementation 'com.zaxxer:HikariCP'
     implementation 'javax.xml.bind:jaxb-api'
     implementation 'com.sun.xml.bind:jaxb-impl'

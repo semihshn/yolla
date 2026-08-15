@@ -15,4 +15,3 @@ include ':payment-api:infra'
 include ':shipping-api'
 include ':shipping-api:domain'
 include ':shipping-api:infra'
-

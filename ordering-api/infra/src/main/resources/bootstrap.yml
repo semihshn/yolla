@@ -13,5 +13,12 @@ spring:
     username: root
     password: my-secret-pw
     driver-class-name: com.mysql.cj.jdbc.Driver
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  modulith:
+    events:
+      externalization:
+        enabled: true
+    republish-outstanding-events-on-restart: true
 server:
   port: 8010

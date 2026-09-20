@@ -10,6 +10,7 @@ ext {
                     springBoot                 : '3.1.0',
                     springCloud                : '4.0.3',
                     springCloudDependencies    : '2022.0.3',
+                    springModulith             : '1.1.12',
 
                     groovy                     : '4.0.12',
 
@@ -33,6 +34,7 @@ dependencies {
     implementation platform("org.springframework.boot:spring-boot-dependencies:${versions.springBoot}")
     implementation platform("org.springframework.cloud:spring-cloud-dependencies:${versions.springCloudDependencies}")
     implementation platform("org.springframework.cloud:spring-cloud-contract-dependencies:${versions.springCloud}")
+    implementation platform("org.springframework.modulith:spring-modulith-bom:${versions.springModulith}")
 
     //tests
     testImplementation "org.assertj:assertj-core:${versions.assertJ}"

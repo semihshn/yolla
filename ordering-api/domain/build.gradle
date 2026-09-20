@@ -2,6 +2,8 @@ apply from: "$rootProject.projectDir/gradle/config/dependencies.gradle"
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    implementation 'org.springframework:spring-tx'
+    implementation 'org.springframework.modulith:spring-modulith-events-api'
     implementation 'org.projectlombok:lombok'
 
     annotationProcessor 'org.projectlombok:lombok'

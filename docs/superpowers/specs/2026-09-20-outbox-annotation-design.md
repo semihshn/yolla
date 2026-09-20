@@ -1,7 +1,7 @@
 # Outbox Annotation Example Design
 
-**Date:** 2026-09-20  
-**Branch:** `outbox-annotation`  
+**Date:** 2026-09-20
+**Branch:** `outbox-annotation`
 **Base:** `main` (the remote repository does not contain a `master` branch)
 
 ## Goal

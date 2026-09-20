@@ -7,9 +7,9 @@ ext {
                     assertJ                    : '3.24.2',
                     mockito                    : '5.3.1',
 
-                    springBoot                 : '3.1.0',
-                    springCloud                : '4.0.3',
-                    springCloudDependencies    : '2022.0.3',
+                    springBoot                 : '3.2.12',
+                    springCloud                : '4.1.5',
+                    springCloudDependencies    : '2023.0.5',
                     springModulith             : '1.1.12',
 
                     groovy                     : '4.0.12',

@@ -1,14 +1,23 @@
-# Getting Started
+# Payment API - Kafka listener use case
 
-### Reference Documentation
-For further reference, please consider the following sections:
+This module is the consumer side of the annotation outbox example.
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.2.2/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.2.2/gradle-plugin/reference/html/#build-image)
+`OrderingDomainEventListenerAdapter` consumes the direct JSON payload emitted by ordering-api, maps it to a `Payment` model and delegates to the real `PaymentService.pay` use case. The use case marks the payment as `COMPLETED` and persists it through `PaymentRepository`.
 
-### Additional Links
-These additional references should also help you:
+The listener acknowledges the Kafka record only after `PaymentService.pay` returns successfully. If payment persistence or deserialization fails, the record is not acknowledged and remains eligible for redelivery. Since Spring Modulith externalization is at-least-once, `PaymentService` checks the unique `orderId` before creating a new payment.
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+## Contract
 
+The ordering event has this shape:
+
+```json
+{
+  "orderId": "order-123",
+  "restaurantId": 42,
+  "totalAmount": 25.00
+}
+```
+
+The listener subscribes to topic `order-created` with consumer group `payment-api`. Its broker address is configured with `KAFKA_BOOTSTRAP_SERVERS`, defaulting to `localhost:9092`.
+
+For a RabbitMQ version, the commented dependency/configuration alternatives in this module can be activated, and the `@KafkaListener` can be replaced with a `@RabbitListener` bound to the corresponding AMQP destination.

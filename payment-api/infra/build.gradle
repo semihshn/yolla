@@ -15,6 +15,21 @@ dependencies {
     implementation 'com.sun.xml.bind:jaxb-core'
     implementation 'com.sun.xml.bind:jaxb-osgi'
     implementation 'com.mysql:mysql-connector-j'
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.projectlombok:lombok'
+
+    // RabbitMQ alternative for this consumer:
+    // implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    // Replace @KafkaListener with @RabbitListener and bind the order-created destination.
+
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'com.h2database:h2'
+}
+
+test {
+    useJUnitPlatform()
 }

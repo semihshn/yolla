@@ -2,19 +2,19 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `subagent-driven-development` (recommended) or `executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a small Order API on `outbox-annotation` that persists an order and publishes an `OrderCreated` event through Spring Modulith's durable event publication registry and Kafka externalization.
+**Goal:** Build a small Order API on `outbox-with-annotation` that persists an order and publishes an `OrderCreated` event through Spring Modulith's durable event publication registry and Kafka externalization, then consume it with a real payment use case.
 
-**Architecture:** `OrderController` maps `POST /ordering/v1/orders` into an application service. `OrderService.createOrder` runs in one local transaction, persists the order through a domain repository port, and publishes `OrderCreated` with `ApplicationEventPublisher`. Spring Modulith's JPA event publication registry records the publication in `EVENT_PUBLICATION`; the `@Externalized` event is then sent to Kafka and the publication is completed after successful delivery.
+**Architecture:** `OrderController` maps `POST /ordering/v1/orders` into an application service. `OrderService.createOrder` runs in one local transaction, persists the order through a domain repository port, and publishes `OrderCreated` with `ApplicationEventPublisher`. Spring Modulith's JPA event publication registry records the publication in `EVENT_PUBLICATION`; the `@Externalized` event is then sent to Kafka and the publication is completed after successful delivery. `payment-api` consumes the direct event JSON and delegates to `PaymentService.pay`, which persists one completed payment per order.
 
-**Tech Stack:** Java 17, Spring Boot 3.1.0, Spring Data JPA, Spring Modulith 1.1.12, Spring Kafka, MySQL, Kafka, Gradle 8.4, JUnit 5, Mockito, MockMvc.
+**Tech Stack:** Java 17, Spring Boot 3.2.12, Spring Cloud 2023.0.5 / 4.1.5, Spring Data JPA, Spring Modulith 1.1.12, Spring Kafka, MySQL, Kafka, Gradle 8.4, JUnit 5, Mockito, MockMvc.
 
 ## Global Constraints
 
 - Base the work on `main`; the remote repository has no `master` branch.
-- Keep the branch name `outbox-annotation`.
-- Keep Spring Boot `3.1.0`, Java 17 and Gradle 8.4 unchanged.
-- Use Spring Modulith `1.1.12`; do not upgrade the repository-wide Spring Boot line.
-- Do not add payment-card data, payment, inventory or shipping consumers.
+- Keep the branch name `outbox-with-annotation`.
+- Keep Java 17 and Gradle 8.4. Use Spring Boot `3.2.12` with the compatible Spring Cloud `2023.0.5` / `4.1.5` line required by Spring Modulith `1.1.12`.
+- Use Spring Modulith `1.1.12`; keep the repository-wide Spring Boot line pinned to the compatible `3.2.12` version for this branch.
+- Do not add payment-card data, inventory or shipping consumers. The payment consumer is intentionally included as the real listener use case for this branch.
 - Use `@Transactional` plus `ApplicationEventPublisher` in the order service.
 - Use `@Externalized("order-created::#{#this.orderId()}")` on `OrderCreated`.
 - Persist the Spring Modulith event publication in the ordering MySQL database; do not add a second custom outbox entity or scheduler.
@@ -1039,7 +1039,22 @@ git commit -m "docs: explain annotation outbox demo"
 
 ---
 
-### Task 6: Run focused and full verification, then report evidence
+### Task 6: Add the real payment listener use case
+
+**Files:**
+- Create: `payment-api/domain/src/main/java/com/yolla/paymentapi/payment/PaymentService.java`
+- Create: `payment-api/domain/src/main/java/com/yolla/paymentapi/payment/PaymentRepository.java`
+- Create: `payment-api/domain/src/main/java/com/yolla/paymentapi/payment/model/Payment.java`
+- Create: `payment-api/infra/src/main/java/com/yolla/paymentapi/adapter/kafka/ordering/OrderingDomainEventListenerAdapter.java`
+- Create: `payment-api/infra/src/main/java/com/yolla/paymentapi/adapter/payment/jpa/PaymentRepositoryAdapter.java`
+- Create: `payment-api/infra/src/main/java/com/yolla/paymentapi/adapter/payment/jpa/entity/PaymentEntity.java`
+- Modify: `payment-api/infra/build.gradle`, `payment-api/infra/src/main/resources/bootstrap.yml`, `db_setup/payment/02_schema.sql`
+
+The listener consumes the direct `OrderCreated` JSON contract, converts it into a payment model and calls `PaymentService.pay`. The payment service marks the payment completed and persists it. A repository lookup plus a unique `order_id` constraint makes redelivery idempotent. Kafka acknowledgement happens only after the use case returns successfully. RabbitMQ dependency and configuration alternatives remain commented so the active example stays Kafka-based.
+
+Tests cover the payment service's completion/idempotency behavior and listener mapping/acknowledgement behavior.
+
+### Task 7: Run focused and full verification, then report evidence
 
 **Files:**
 - No planned source changes. Only fix issues exposed by verification, keeping each fix in the task that owns the behavior.
@@ -1050,7 +1065,7 @@ git commit -m "docs: explain annotation outbox demo"
 - [ ] **Step 1: Run focused domain tests**
 
 ```bash
-./gradlew :ordering-api:domain:test
+./gradlew :ordering-api:domain:test :payment-api:domain:test
 ```
 
 Expected: domain tests pass.
@@ -1058,7 +1073,7 @@ Expected: domain tests pass.
 - [ ] **Step 2: Run focused infra tests**
 
 ```bash
-./gradlew :ordering-api:infra:test
+./gradlew :ordering-api:infra:test :payment-api:infra:test
 ```
 
 Expected: controller, entity mapping and H2 context tests pass.
@@ -1079,7 +1094,7 @@ git status --short --branch
 git log --oneline --decorate -8
 ```
 
-Expected: no whitespace errors, the working tree is clean, and the branch history contains the focused task commits on `outbox-annotation`.
+Expected: no whitespace errors, the working tree is clean, and the branch history contains the focused task commits on `outbox-with-annotation`.
 
 - [ ] **Step 5: If Docker is available, perform the manual happy path**
 

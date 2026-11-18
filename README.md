@@ -4,7 +4,7 @@
 
 The container view shows the four application skeletons and their configured MySQL datasources. This branch has no implemented order-to-payment flow.
 
-![Service topology](docs/c4/topology.png)
+![Service topology](docs/c4/topology.gif)
 
 [Structurizr DSL source](docs/c4/workspace.dsl)
 

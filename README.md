@@ -4,7 +4,7 @@
 
 The numbered view follows POST /orders through stock validation, the fake payment adapter, the in-memory order store, and the logging notification adapter.
 
-![Hexagonal order flow](docs/c4/flow.png)
+![Hexagonal order flow](docs/c4/flow.gif)
 
 [Structurizr DSL source](docs/c4/workspace.dsl)
 

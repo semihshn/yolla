@@ -4,7 +4,7 @@
 
 The numbered view shows the order and EVENT_PUBLICATION record, externalization of OrderCreated to Kafka, and payment consumption.
 
-![Spring Modulith outbox flow](docs/c4/flow.png)
+![Spring Modulith outbox flow](docs/c4/flow.gif)
 
 [Structurizr DSL source](docs/c4/workspace.dsl)
 

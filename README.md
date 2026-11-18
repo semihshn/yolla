@@ -4,7 +4,7 @@
 
 The numbered view shows outbox delivery and how the payment consumer records processed aggregate IDs in MySQL before inserting a payment.
 
-![Database idempotency flow](docs/c4/flow.png)
+![Database idempotency flow](docs/c4/flow.gif)
 
 [Structurizr DSL source](docs/c4/workspace.dsl)
 

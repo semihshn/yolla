@@ -24,13 +24,4 @@ public class JsonConverter {
         return objectEvent;
     }
 
-    public static <T extends DomainEvent> String convertTo(ObjectMapper objectMapper, List<DomainEventEnvelope<T>> domainEventEnvelope) {
-        String payload;
-        try {
-            payload = objectMapper.writeValueAsString(domainEventEnvelope);
-        } catch (JsonProcessingException e) {
-            throw new PaymentJsonConvertException(ExceptionType.CONVERT_OBJECT_TO_JSON);
-        }
-        return payload;
-    }
 }

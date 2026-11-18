@@ -4,7 +4,7 @@
 
 The numbered view shows outbox delivery and the payment consumer's RedisBloom BF.EXISTS and BF.ADD checks before payment insertion.
 
-![Bloom filter flow](docs/c4/flow.png)
+![Bloom filter flow](docs/c4/flow.gif)
 
 [Structurizr DSL source](docs/c4/workspace.dsl)
 

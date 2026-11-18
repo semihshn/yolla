@@ -4,7 +4,7 @@
 
 The numbered view follows the actual failure path: the order is saved, then EventPublisherAdapter throws before KafkaTemplate.send. No Kafka event or payment follows on this path.
 
-![Order publication failure flow](docs/c4/flow.png)
+![Order publication failure flow](docs/c4/flow.gif)
 
 [Structurizr DSL source](docs/c4/workspace.dsl)
 

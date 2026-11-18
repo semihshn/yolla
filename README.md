@@ -1,5 +1,13 @@
 # Getting Started
 
+## Redis lock flow
+
+The numbered view shows outbox delivery and the payment consumer's Redis SETNX lock before payment insertion.
+
+![Redis lock flow](docs/c4/flow.png)
+
+[Structurizr DSL source](docs/c4/workspace.dsl)
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:

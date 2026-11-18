@@ -4,7 +4,7 @@
 
 The numbered diagram shows how an order and its outbox event are stored together, then published to Kafka and consumed by the payment service.
 
-![Transactional outbox flow](docs/transactional-outbox-flow.png)
+![Transactional outbox flow](docs/transactional-outbox-flow.gif)
 
 [Structurizr DSL source](docs/c4/workspace.dsl)
 

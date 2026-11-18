@@ -6,6 +6,8 @@ The numbered diagram shows how an order and its outbox event are stored together
 
 ![Transactional outbox flow](docs/transactional-outbox-flow.png)
 
+[Structurizr DSL source](docs/c4/workspace.dsl)
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:

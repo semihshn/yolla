@@ -1,5 +1,13 @@
 # Getting Started
 
+## Hexagonal order flow
+
+The numbered view follows POST /orders through stock validation, the fake payment adapter, the in-memory order store, and the logging notification adapter.
+
+![Hexagonal order flow](docs/c4/flow.png)
+
+[Structurizr DSL source](docs/c4/workspace.dsl)
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:
